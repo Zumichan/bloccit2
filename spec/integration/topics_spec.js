@@ -70,6 +70,28 @@ describe("routes : topics", () => {
          }
        );
      });
+
+     it("should not create a new tipic that fails validations", (done) => {
+      const options = {
+        url: `${base}create`,
+        form: {
+          title: "a",
+          body: "b"
+        }
+      };
+      request.post(options, (err, res, body) => {
+          Topic.findOne({where: {title: "a"}})
+          .then((post) => {
+              expect(post).toBeNull();
+              done();
+          })
+          .catch((err) => {
+            console.log(err);
+            done();
+          });
+        });
+      });
+
    });
 
    describe("GET /topics/:id", () => {
