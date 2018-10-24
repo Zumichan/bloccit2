@@ -149,7 +149,10 @@ describe("routes : posts", () => {
        const options = {
          url: `${base}/${this.topic.id}/posts/${this.post.id}/update`,
          form: {
-           title: "Snowman Building Competition"
+           title: "Snowman Building Competition",
+           //Adding body. The new test for validation is checking for an update with a body of 10 characters. 
+           //It can't update a post with no `body` or basically any body that doesn't have a length of 10 characters.
+           body: "I love watching them melt slowly."
          }
        };
        request.post(options,(err, res, body) => {
