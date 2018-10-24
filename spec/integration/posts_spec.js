@@ -1,6 +1,6 @@
 const request = require("request");
 const server = require("../../src/server");
-const base = "http://localhost:3000/topics";
+const base = "http://localhost:3000/topics/";
 
 const sequelize = require("../../src/db/models/index").sequelize;
 const Topic = require("../../src/db/models").Topic;
@@ -72,6 +72,28 @@ describe("routes : posts", () => {
         });
       });
     });
+
+    it("should not create a new post that fails validations", (done) => {
+     const options = {
+       url: `${base}/${this.topic.id}/posts/create`,
+       form: {
+         title: "a",
+         body: "b"
+       }
+     };
+
+     request.post(options, (err, res, body) => {
+         Post.findOne({where: {title: "a"}})
+         .then((post) => {
+             expect(post).toBeNull();
+             done();
+         })
+         .catch((err) => {
+           console.log(err);
+           done();
+         });
+       });
+     });
   });
 
   describe("GET /topics/:topicId/posts/:id", () => {
@@ -140,8 +162,7 @@ describe("routes : posts", () => {
            done();
          });
        });
-    });
-
- });
+     });
+   });
 
 });
