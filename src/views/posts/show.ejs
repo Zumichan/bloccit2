@@ -7,6 +7,8 @@
     <% include ../static/partials/navbar.ejs %>
 
     <main class="container">
+      <% include ../static/partials/messages.ejs %>
+
       <h1><%= post.title %></h1>
         <a href="/topics/<%= post.topicId %>/posts/<%= post.id %>/edit" class="btn btn-warning">Edit</a>
         <form style="display:initial" action="/topics/<%= post.topicId %>/posts/<%= post.id %>/destroy" method="post">
@@ -14,6 +16,23 @@
         </form>
 
       <p><%= post.body %></p>
+      <section id="comment-form">
+
+      <!--We only show the form if there is a signed in user-->
+      <% if(currentUser) { %>
+        <% include ../comments/new.ejs %>
+      <% } %>
+      </section>
+
+      <!--List the comments associated with this post-->
+      <section id="comment-list">
+      <% if(post.comments) { %>
+        <% post.comments.forEach((comment) => { %>
+          <!-- <%- let us pass the variable unescaped, meaning it decodes(converts) an encoded string.-->
+          <%- include("../comments/show.ejs", {comment}) %>
+        <% }) %>
+      <% } %>
+     </section>
     </main>
 
     <% include ../static/partials/baseScripts.ejs %>
