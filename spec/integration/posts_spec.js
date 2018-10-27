@@ -241,7 +241,7 @@ describe("routes : posts", () => {
         role: "admin"
       })
       .then((user) => {
-        request.get({         /
+        request.get({        
           url: "http://localhost:3000/auth/fake",
           form: {
             role: user.role,

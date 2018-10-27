@@ -47,7 +47,7 @@ describe("routes : comments", () => {
             userId: this.user.id,
             postId: this.post.id
           })
-          .then((coment) => {
+          .then((comment) => {
             this.comment = comment;// store comment
             done();
           })
@@ -138,7 +138,7 @@ describe("routes : comments", () => {
           request.get({
             url: "http://localhost:3000/auth/fake",
             form: {
-              role: user.role, 
+              role: user.role,
               userId: user.id,
               email: user.email
             }
