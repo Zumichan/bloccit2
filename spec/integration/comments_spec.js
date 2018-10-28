@@ -129,18 +129,12 @@ describe("routes : comments", () => {
     //context for signed in (member) user
     describe("signed in user performing CRUD actions for Comment", () => {
       beforeEach((done) => {
-        User.create({
-          email: "member@example.com",
-          password: "123456",
-          role: "member"
-        })
-        .then((user)=>{
           request.get({
             url: "http://localhost:3000/auth/fake",
             form: {
-              role: user.role,
-              userId: user.id,
-              email: user.email
+              role: "member",
+              userId: this.user.id,//the owner of the comment is this.user
+              email: this.user.email
             }
           },
             (err,res,body)=>{
@@ -197,5 +191,3 @@ describe("routes : comments", () => {
       });
 
     }); //end context for signed in user
-
-  });
