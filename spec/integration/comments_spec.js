@@ -78,7 +78,6 @@ describe("routes : comments", () => {
           done();
         }
       );
-    });
 
     describe("POST /topics/:topicId/posts/:postId/comments/create", () => {
       it("should not create a new comment", (done) => {
@@ -99,8 +98,7 @@ describe("routes : comments", () => {
               console.log(err);
               done();
             });
-          }
-        );
+          });
       });
     });
 
@@ -120,11 +118,11 @@ describe("routes : comments", () => {
               done();
             })
             });
-        });
-      })
+         });
+       })
     });
-
-  });
+  });//end of beforeEach
+});//end of test for user
 
     //context for signed in (member) user
     describe("signed in user performing CRUD actions for Comment", () => {
@@ -139,9 +137,8 @@ describe("routes : comments", () => {
           },
             (err,res,body)=>{
               done();
-            });
-         });
-      });
+            }
+          );
 
       describe("POST /topics/:topicId/posts/:postId/comments/create", () => {
         it("should create a new comment and redirect", (done) => {
@@ -164,8 +161,7 @@ describe("routes : comments", () => {
                 console.log(err);
                 done();
               });
-            }
-          );
+            });
         });
       });
 
@@ -189,5 +185,6 @@ describe("routes : comments", () => {
            })
         });
       });
-
-    }); //end context for signed in user
+    });//end of beforeEach
+  }); //end context for signed in user
+});
