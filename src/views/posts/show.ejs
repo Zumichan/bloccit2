@@ -12,7 +12,6 @@
       <% if (currentUser && (currentUser.isAdmin() || currentUser.id == post.userId)) { %>
         <a href="/topics/<%= post.topicId %>/posts/<%= post.id %>/edit" class="btn btn-warning">Edit</a>
         <form style="display:initial" action="/topics/<%= post.topicId %>/posts/<%= post.id %>/destroy" method="post">
-          <input type="hidden" name="_method" value="PUT">
           <button type="submit" class="btn btn-danger">Delete</button>
         </form>
       <% } %>
