@@ -52,7 +52,6 @@ module.exports = {
      });
    },
    destroy(req, res, next){
-
      topicQueries.deleteTopic(req, (err, topic) => {
        if(err){
          res.redirect(err, `/topics/${req.params.id}`)
