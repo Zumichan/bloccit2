@@ -38,6 +38,7 @@ describe("routes : posts", () => {
         .then((topic) => {
           this.topic = topic;
           this.post = topic.posts[0];
+          console.log("this.post.dataValues.userId:" + String(this.post.dataValues.userId));
           done();
         })
       })
@@ -106,7 +107,7 @@ describe("routes : posts", () => {
           url: `${base}/${this.topic.id}/posts/create`,
           form: {
             title: "Watching snow melt",
-            body: "Without a doubt my favoriting things to do besides watching paint dry!"
+            body: "Without a doubt my favoriting things to do besides watching paint dry!",
           }
         };
         request.post(options,(err, res, body) => {
