@@ -7,12 +7,15 @@
     <% include ../static/partials/navbar.ejs %>
 
     <main class="container">
+      <% include ../static/partials/messages.ejs %>
+
       <h1><%= topic.title %></h1>
+      <p><%= topic.description %></p>
 
       <% if(currentUser) { %>
         <a href="/topics/<%= topic.id %>/posts/new" class="btn btn-success">New Post</a>
-      <% if(currentUser.isAdmin()) { %>
 
+      <% if(currentUser.isAdmin()) { %>
         <a href="/topics/<%= topic.id %>/edit" class="btn btn-warning">Edit</a>
         <form style="display:initial" action="/topics/<%= topic.id %>/destroy" method="post">
           <button type="submit" class="btn btn-danger">Delete</button>
@@ -20,7 +23,8 @@
       <% } %>
     <% } %>
 
-      <p><%= topic.description %></p>
+      <a href="/topics" class="btn btn-info">Back to Topics</a>
+      
       <hr>
 
       <h1>Posts</h1>

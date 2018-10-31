@@ -34,5 +34,8 @@ module.exports = (sequelize, DataTypes) => {
       as: "comments"
     });
   };
+  Post.prototype.isOwner=function(){
+    return this.userId === this.foreignKey;
+  }
   return Post;
 };

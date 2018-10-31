@@ -10,6 +10,8 @@
       <% include ../static/partials/messages.ejs %>
 
       <h1><%= post.title %></h1>
+      <p><%= post.body %></p>
+
         <% if (currentUser && (currentUser.isAdmin() || currentUser.id == post.userId)) { %>
         <a href="/topics/<%= post.topicId %>/posts/<%= post.id %>/edit" class="btn btn-warning">Edit</a>
         <form style="display:initial" action="/topics/<%= post.topicId %>/posts/<%= post.id %>/destroy" method="post">
@@ -17,7 +19,8 @@
         </form>
       <% } %>
 
-      <p><%= post.body %></p>
+      <a href="/topics/<%= post.topicId %>" class="btn btn-info">Back to Topic</a>
+      
       <section id="comment-form">
 
       <!--We only show the form if there is a signed in user-->
