@@ -78,6 +78,7 @@ describe("routes : comments", () => {
           done();
         }
       );
+    });//end of beforeEach
 
     describe("POST /topics/:topicId/posts/:postId/comments/create", () => {
       it("should not create a new comment", (done) => {
@@ -121,8 +122,7 @@ describe("routes : comments", () => {
          });
        })
     });
-  });//end of beforeEach
-});//end of test for user
+  });//end of test for user
 
     //context for signed in (member) user
     describe("signed in user performing CRUD actions for Comment", () => {
@@ -132,13 +132,13 @@ describe("routes : comments", () => {
             form: {
               role: "member",
               userId: this.user.id,//the owner of the comment is this.user
-              email: this.user.email
             }
           },
             (err,res,body)=>{
               done();
             }
           );
+      });//end of beforeEach
 
       describe("POST /topics/:topicId/posts/:postId/comments/create", () => {
         it("should create a new comment and redirect", (done) => {
@@ -166,7 +166,7 @@ describe("routes : comments", () => {
       });
 
       describe("POST /topics/:topicId/posts/:postId/comments/:id/destroy", () => {
-        it("should delete the comment with the associated ID", (done) => {
+        it("should delete the comment with the associated ID", (done) => {//should be able to delete own comment
           Comment.all()
           .then((comments) => {
             const commentCountBeforeDelete = comments.length;
@@ -185,6 +185,98 @@ describe("routes : comments", () => {
            })
         });
       });
-    });//end of beforeEach
   }); //end context for signed in user
+
+  //context for signed in (member) userm but not a owner of the comment
+  describe("signed in but non owner user performing CRUD actions for Comment", () => {
+    beforeEach((done) => {
+      User.create({
+        email: "member@example.com",
+        password: "123456",
+        role: "member"
+      })
+      .then((user) => {
+        request.get({
+          url: "http://localhost:3000/auth/fake",
+          form: {
+            role: user.role,
+            userId: user.id,
+            email: user.email
+          }
+        },
+          (err,res,body)=>{
+            done();
+          }
+        );
+      });
+    });//end of beforeEach
+
+    describe("POST /topics/:topicId/posts/:postId/comments/:id/destroy", () => {
+      it("should not delete another member's comment", (done) => {
+        Comment.all()
+        .then((comments) => {
+          const commentCountBeforeDelete = comments.length;
+          expect(commentCountBeforeDelete).toBe(1);
+          request.post(
+           `${base}${this.topic.id}/posts/${this.post.id}/comments/${this.comment.id}/destroy`,
+            (err, res, body) => {
+            expect(res.statusCode).toBe(401);
+            Comment.all()
+            .then((comments) => {
+              expect(err).toBeNull();
+              expect(comments.length).toBe(commentCountBeforeDelete);
+              done();
+            })
+            });
+         })
+      });
+    });
+  }); //end context for signed in (member) userm but not a owner
+
+  //context for admin user
+  describe("admin user performing CRUD actions for Comment", () => {
+    beforeEach((done) => {
+      User.create({
+        email: "admin@example.com",
+        password: "1234567",
+        role: "admin"
+      })
+      .then((user) => {
+        request.get({
+          url: "http://localhost:3000/auth/fake",
+          form: {
+            role: user.role,
+            userId: user.id,
+            email: user.email
+          }
+        },
+          (err,res,body)=>{
+            done();
+          }
+        );
+      });
+    });//end of beforeEach
+
+    describe("POST /topics/:topicId/posts/:postId/comments/:id/destroy", () => {
+      it("should be able to delete another member's comment", (done) => {
+        Comment.all()
+        .then((comments) => {
+          const commentCountBeforeDelete = comments.length;
+          expect(commentCountBeforeDelete).toBe(1);
+          request.post(
+           `${base}${this.topic.id}/posts/${this.post.id}/comments/${this.comment.id}/destroy`,
+            (err, res, body) => {
+            expect(res.statusCode).toBe(302);
+            Comment.all()
+            .then((comments) => {
+              expect(err).toBeNull();
+              expect(comments.length).toBe(commentCountBeforeDelete-1);
+              done();
+            })
+            });
+         })
+      });
+    });
+  }); //end context for admin user
+
 });
