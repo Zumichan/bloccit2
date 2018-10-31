@@ -9,7 +9,14 @@
     <main class="container">
       <% include ../static/partials/messages.ejs %>
 
+      <div style="display: flex; align-items:center;">
+       <% if(currentUser) { %>
+         <% include ../votes/voting.ejs %>
+       <% } %>
+
       <h1><%= post.title %></h1>
+      </div>
+      
       <p><%= post.body %></p>
 
         <% if (currentUser && (currentUser.isAdmin() || currentUser.id == post.userId)) { %>
@@ -20,7 +27,7 @@
       <% } %>
 
       <a href="/topics/<%= post.topicId %>" class="btn btn-info">Back to Topic</a>
-      
+
       <section id="comment-form">
 
       <!--We only show the form if there is a signed in user-->
