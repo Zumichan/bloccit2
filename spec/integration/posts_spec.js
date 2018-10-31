@@ -44,11 +44,10 @@ describe("routes : posts", () => {
         })
       })
     });
-
   });
 
   // Guest User Context
-  describe("member user performing CRUD actions for Topic", () => {
+  describe("guest user performing CRUD actions for Post", () => {
 
     beforeEach((done) => {
       request.get(
@@ -60,8 +59,7 @@ describe("routes : posts", () => {
         },
         (err, res, body) => {
           done();
-        }
-      );
+        });
     });
 
     describe("GET /topics/:topicId/posts/:id", () => {
@@ -73,12 +71,11 @@ describe("routes : posts", () => {
         });
       });
     });
-
   });
   // End User Context
 
   // Member User Context
-  describe("admin user performing CRUD actions for Topic", () => {
+  describe("member user performing CRUD actions for Post", () => {
 
     beforeEach((done) => {
       User.create({
@@ -87,19 +84,18 @@ describe("routes : posts", () => {
         role: "member"
       })
       .then((user) => {
-        request.get({         // mock authentication
+        request.get({
           url: "http://localhost:3000/auth/fake",
           form: {
-            role: user.role,     // mock authenticate as admin user
+            role: user.role,
             userId: user.id,
             email: user.email
           }
         },
           (err, res, body) => {
             done();
-          }
-        );
-      });
+          });
+       });
     });
 
    describe("GET /topics/:topicId/posts/:id", () => {
@@ -111,7 +107,6 @@ describe("routes : posts", () => {
         done();
       });
     });
-
    });
 
    describe("GET /topics/:topicId/posts/new", () => {
@@ -123,7 +118,6 @@ describe("routes : posts", () => {
             done();
          });
       });
-
    });
 
    describe("POST /topics/:topicId/posts/create", () => {
@@ -179,22 +173,17 @@ describe("routes : posts", () => {
             console.log(err);
             done();
           });
-        }
-      );
-    });
-
+        });
+      });
    });
 
    describe("POST /topics/:topicId/posts/:id/destroy", () => {
 
-    it("should not delete the topic with the associated ID", (done) => {
-
+    it("should not delete the post with the associated ID", (done) => {
       Post.all()
       .then((posts) => {
         const postCountBeforeDelete = posts.length;
-
         expect(postCountBeforeDelete).toBe(1);
-
         request.post(`${base}${this.topic.id}/posts/${this.post.id}/destroy`, (err, res, body) => {
           Post.all()
           .then((posts) => {
@@ -202,12 +191,9 @@ describe("routes : posts", () => {
             expect(posts.length).toBe(postCountBeforeDelete);
             done();
           })
-
         });
       })
-
     });
-
    });
 
    describe("GET /topics/:topicId/posts/:id/edit", () => {
@@ -218,13 +204,12 @@ describe("routes : posts", () => {
           expect(body).not.toContain("Edit Post");
           done();
         });
-    });
-
+      });
    });
 
    describe("POST /topics/:topicId/posts/:id/update", () => {
 
-    it("should not update the topic with the given values", (done) => {
+    it("should not update the post with the given values", (done) => {
       const options = {
         url: `${base}${this.topic.id}/posts/${this.post.id}/update`,
         form: {
@@ -244,10 +229,8 @@ describe("routes : posts", () => {
           done();
         });
       });
+     });
     });
-
-   });
-
   });
   // End Member Context
 
@@ -261,19 +244,18 @@ describe("routes : posts", () => {
         role: "admin"
       })
       .then((user) => {
-        request.get({         // mock authentication
+        request.get({
           url: "http://localhost:3000/auth/fake",
           form: {
-            role: user.role,     // mock authenticate as admin user
+            role: user.role,
             userId: user.id,
             email: user.email
           }
         },
           (err, res, body) => {
             done();
-          }
-        );
-      });
+          });
+       });
     });
 
 
@@ -286,7 +268,6 @@ describe("routes : posts", () => {
           done();
         });
       });
-
     });
 
     describe("GET /topics/:topicId/posts/new", () => {
@@ -298,7 +279,6 @@ describe("routes : posts", () => {
               done();
            });
         });
-
     });
 
     describe("POST /topics/:topicId/posts/create", () => {
@@ -354,10 +334,8 @@ describe("routes : posts", () => {
               console.log(err);
               done();
             });
-          }
-        );
-      });
-
+          });
+       });
     });
 
     describe("POST /topics/:topicId/posts/:id/destroy", () => {
@@ -374,7 +352,6 @@ describe("routes : posts", () => {
           })
         });
       });
-
     });
 
     describe("GET /topics/:topicId/posts/:id/edit", () => {
@@ -387,7 +364,6 @@ describe("routes : posts", () => {
           done();
         });
       });
-
     });
 
     describe("POST /topics/:topicId/posts/:id/update", () => {
@@ -410,9 +386,7 @@ describe("routes : posts", () => {
           });
         });
       });
-
     });
-
   });
   // End Admin Context
 
