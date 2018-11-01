@@ -100,6 +100,22 @@ describe("Vote", () => {
        });
      });
 
+     it("should not create a vote with a value of anything other than 1 or -1 on a post for a user", (done) => {
+       Vote.create({
+         value: 2,
+         postId: this.post.id,
+         userId: this.user.id
+       })
+       .then((vote) => {
+         // the code in this block will not be evaluated since the validation error will skip it.
+         done();
+       })
+       .catch((err) => {
+         expect(err.message).toContain("Value should be 1 or -1");
+         done();
+       });
+     });
+
      it("should not create a vote without assigned post or user", (done) => {
        Vote.create({
          value: 1
@@ -215,6 +231,46 @@ describe("Vote", () => {
         this.comment.getPost()
         .then((associatedPost) => {
           expect(associatedPost.title).toBe("My first visit to Proxima Centauri b");
+          done();
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        done();
+      });
+    });
+  });
+
+  describe("#hasUpvoteFor()", () => {
+
+    it("should return true if the user with matching id has an upvote", (done) => {
+      Vote.create({
+        value: 1,
+        userId: this.user.id,
+        postId: this.post.id
+      })
+      .then((vote) => {
+
+          done();
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        done();
+      });
+    });
+  });
+
+  describe("#hasDownvoteFor()", () => {
+
+    it("should return true if the user with matching id has a downvote", (done) => {
+      Vote.create({
+        value: -1,
+        userId: this.user.id,
+        postId: this.post.id
+      })
+      .then((vote) => {
+
           done();
         });
       })

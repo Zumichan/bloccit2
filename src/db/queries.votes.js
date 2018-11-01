@@ -16,6 +16,7 @@ module.exports = {
        vote.value = val;//Update the vote's value to the new upvote or downvote value
        vote.save()//save the change
        .then((vote) => {
+         req.flash("You have already voted once.")
          callback(null, vote);
        })
        .catch((err) => {

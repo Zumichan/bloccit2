@@ -47,5 +47,19 @@ module.exports = (sequelize, DataTypes) => {
      .map((v) => { return v.value })//Transforms the array this.votes Vote objects>>values
      .reduce((prev, next) => { return prev + next });//Goes over all values, reducing them until one is left which is the total
   };
+  Post.prototype.hasUpvoteFor = function(userId){
+    const votesArray=this.votes;
+    const findUpvote = votesArray.filter((vote)=>((userId === vote.userId) && (vote.value === 1)));
+    if(findUpvote.length === 1){
+      return true;
+    }
+  };
+  Post.prototype.hasDownvoteFor = function(userId){
+    const votesArray=this.votes;
+    const findDownvote = votesArray.filter((vote)=>((userId === vote.userId) && (vote.value === -1)));
+    if(findUpvote.length === 1){
+      return true;
+    }
+  };
   return Post;
 };
