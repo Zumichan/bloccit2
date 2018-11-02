@@ -111,7 +111,7 @@ describe("Vote", () => {
          done();
        })
        .catch((err) => {
-         expect(err.message).toContain("Value should be 1 or -1");
+         expect(err.message).toContain("Validation isIn on value failed");
          done();
        });
      });
@@ -250,9 +250,9 @@ describe("Vote", () => {
         postId: this.post.id
       })
       .then((vote) => {
-
-          done();
-        });
+        this.post.votes = vote;
+        expect(this.post.hasUpvoteFor(vote.userId)).toBe(true);
+        done();
       })
       .catch((err) => {
         console.log(err);
@@ -270,9 +270,9 @@ describe("Vote", () => {
         postId: this.post.id
       })
       .then((vote) => {
-
-          done();
-        });
+        this.post.votes = vote;
+        expect(this.post.hasDownvoteFor(vote.userId)).toBe(true);
+        done();
       })
       .catch((err) => {
         console.log(err);
