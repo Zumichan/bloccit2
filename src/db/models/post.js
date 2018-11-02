@@ -37,6 +37,10 @@ module.exports = (sequelize, DataTypes) => {
      foreignKey: "postId",
      as: "favorites"
     });
+    Post.hasMany(models.Vote, {
+      foreignKey: "postId",
+      as: "votes"
+    });
     // afterCreate: Sequelize "hook." Hooks are like event listeners that wait for a certain event to happen
     //and fire any requests we have queued for that particular event.
     Post.afterCreate((post, callback) => {
@@ -45,9 +49,12 @@ module.exports = (sequelize, DataTypes) => {
         postId: post.id
       });
     });
-    Post.hasMany(models.Vote, {
-      foreignKey: "postId",
-      as: "votes"
+    Post.afterCreate((post, callback) => {
+      return models.Vote.create({
+        userId: post.userId,
+        postId: post.id,
+        value:1
+      });
     });
   };
   Post.prototype.isOwner=function(){
