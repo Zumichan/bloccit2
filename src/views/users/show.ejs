@@ -19,10 +19,8 @@
 
       <ul class="list-unstyled">
 
-        <!-- Check if there are posts for the user-->
         <% if(posts) { %>
           <% posts.forEach((post) => { %>
-            <!-- If there are posts, we build li for each and link to the post's show view -->
             <li>
               <a href="/topics/<%= post.topicId %>/posts/<%= post.id %>">
                 <%= post.title %>
@@ -34,14 +32,9 @@
       <hr>
 
       <h2> Latest Comments</h2>
-
       <ul class="list-unstyled">
-
-        <!-- Check if there are comments for the user -->
         <% if(comments) { %>
           <% comments.forEach((comment) => { %>
-
-            <!-- If there are comments, we build li for each and link to the comment's post -->
             <li>
               <span>Post: </span><a href="/topics/<%= comment.Post.topicId %>/posts/<%= comment.Post.id %>">
                 <%= comment.Post.title %>
@@ -52,6 +45,20 @@
           <% }) %>
         <% } %>
       </ul>
+
+      <h2> Favorited Posts</h2>
+      <ul class="list-unstyled">
+        <% if(favorites) { %>
+          <% favorites.forEach((favorite) => { %>
+            <li>
+              <span>Post: </span><a href="/topics/<%= favorite.Post.topicId %>/posts/<%= favorite.Post.id %>">
+                <%= favorite.Post.title %>
+              </a>
+            </li>
+          <% }) %>
+        <% } %>
+      </ul>
+
     </main>
 
     <% include ../static/partials/baseScripts.ejs %>

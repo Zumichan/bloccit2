@@ -1,6 +1,7 @@
 const User = require("./models").User;
 const Post = require("./models").Post;
 const Comment = require("./models").Comment;
+const Favorite = require("./models").Favorite;
 const bcrypt = require("bcryptjs");
 
 module.exports = {
@@ -33,11 +34,15 @@ module.exports = {
           Comment.scope({method: ["lastFiveFor", id]}).all()//Execute the scope to get the last five comments made by the user
           .then((comments) => {
             result["comments"] = comments;//Store the result in result object
-            callback(null, result);//Pass the object to the callback
+            Favorite.scope({method: ["favoritedPosts", id]}).all()
+            .then((favorites) => {
+              result["favorites"] = favorites;//Store the result in result object
+              callback(null, result);//Pass the object to the callback
           })
           .catch((err) => {
             callback(err);
           })
+         })
         })
       }
     })

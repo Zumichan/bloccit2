@@ -37,8 +37,19 @@ module.exports = (sequelize, DataTypes) => {
       as: "votes"
     });
   };
+
   User.prototype.isAdmin = function() {
    return this.role === "admin";
   };
+
+  //User.addScope("favoritedPosts", (userId) => {
+    //return {
+      //include: [{
+      //  model: models.Favorite
+      //}],
+    //  where: { userId: userId},
+      //order: [["createdAt", "DESC"]]
+    //}
+  //});
   return User;
 };
