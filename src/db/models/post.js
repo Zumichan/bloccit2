@@ -33,6 +33,18 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: "postId",
       as: "comments"
     });
+    Post.hasMany(models.Favorite, {
+     foreignKey: "postId",
+     as: "favorites"
+    });
+    // afterCreate: Sequelize "hook." Hooks are like event listeners that wait for a certain event to happen
+    //and fire any requests we have queued for that particular event.
+    Post.afterCreate((post, callback) => {
+      return models.Favorite.create({
+        userId: post.userId,
+        postId: post.id
+      });
+    });
     Post.hasMany(models.Vote, {
       foreignKey: "postId",
       as: "votes"
@@ -47,19 +59,8 @@ module.exports = (sequelize, DataTypes) => {
      .map((v) => { return v.value })//Transforms the array this.votes Vote objects>>values
      .reduce((prev, next) => { return prev + next });//Goes over all values, reducing them until one is left which is the total
   };
-  Post.prototype.hasUpvoteFor = function(userId){
-    const votesArray=this.votes;
-    const findUpvote = votesArray.filter((vote)=>((userId === vote.userId) && (vote.value === 1)));
-    if(findUpvote.length === 1){
-      return true;
-    }
-  };
-  Post.prototype.hasDownvoteFor = function(userId){
-    const votesArray=this.votes;
-    const findDownvote = votesArray.filter((vote)=>((userId === vote.userId) && (vote.value === -1)));
-    if(findUpvote.length === 1){
-      return true;
-    }
+  Post.prototype.getFavoriteFor = function(userId){
+    return this.favorites.find((favorite) => { return favorite.userId == userId });
   };
   return Post;
 };
