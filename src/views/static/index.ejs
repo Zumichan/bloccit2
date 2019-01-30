@@ -9,37 +9,31 @@
       <% include ./partials/navbar.ejs %>
 
       <!-- Page Content -->
-      <main class="container">
+      <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
 
-        <!-- Jumbotron Header -->
-        <header class="jumbotron my-4">
-          <h1 class="display-3">Welcome to Bloccit</h1>
-          <p class="lead">An application for users to share information.</p>
-          <a href="/users/sign_up" class="btn btn-primary btn-lg">Sign up</a>
-        </header>
+   <!--banner-->
+ <section id="banner" class="banner">
+    <% include ./partials/messages.ejs %>
+   <div class="bg-color">
+     <!-- Navigation -->
+       <% include ./partials/navbar.ejs %>
+       <!--Main-->
+        <div class="container">
+         <!-- <div class="row"> -->
+           <div class="banner-info">
+             <div class="banner-text text-center">
+               <h1 class="white">Share the joy of parenting</h1>
+               <p>Parenting is hard, tiring, frustrating...wait..it's not actually filled with all the negatives.</p>
+               <p>Share the joy of parenting, positive messages, encouragement to give us energies and enjoy parenting!</p>
+               <br>
+               <a href="/users/sign_up" class="btn btn-light btn-lg">Join the community</a>
+             </div>
+           </div>
+         <!-- </div> -->
+       </div>
+     </div>
+</section>
 
-        <!-- Page Features -->
-        <section class="row text-center">
-
-          <section class="col-lg-4">
-            <h4 class="card-title">Post</h4>
-            <p class="card-text">Share your thoughts about subjects that are important to you.</p>
-          </section>
-
-          <section class="col-lg-4">
-            <h4 class="card-title">Comment</h4>
-            <p class="card-text">Your opinion counts! But you have to make yourself heard first!</p>
-          </section>
-
-          <section class="col-lg-4">
-            <h4 class="card-title">Stay Informed</h4>
-            <p class="card-text">See the most active topics as well as trending subjects every day!</p>
-          </section>
-
-        </section>
-        <!-- /.row -->
-
-      </main>
       <!-- /.container -->
 
       <% include ./partials/baseScripts.ejs %>
