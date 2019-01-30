@@ -65,7 +65,7 @@ banner
     padding: 20px 0;
     transition: all 0.3s;
 }
- .navbar-default {
+.navbar-default {
     background-color: transparent;
     border: 0px;
 }
@@ -83,6 +83,12 @@ banner
 .navbar-brand img {
     padding-top: 2px;
     width: 120px !important;
+}
+
+.nav-link {
+	font-family: 'Amatic SC', cursive;
+	font-size: 25px;
+	font-weight: bold;
 }
 
 .navbar-default .navbar-brand, .navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {
